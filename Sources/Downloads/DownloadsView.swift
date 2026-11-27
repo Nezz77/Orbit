@@ -12,7 +12,9 @@ struct DownloadsView: View {
     var body: some View {
         WorkspaceScroll {
             WorkspaceHeader(title: "Downloads", subtitle: "Queue direct file links and manage transfers from one place.") {
-                Button("Choose Folder…", systemImage: "folder") { chooseFolder() }
+                Button("Choose Folder…", systemImage: "folder") {
+                    chooseDownloadFolder(startingAt: manager.folder) { manager.folder = $0 }
+                }
                     .buttonStyle(.glass)
                     .controlSize(.large)
             }
@@ -102,18 +104,20 @@ struct DownloadsView: View {
         if failed.count != lines.count { filter = .all }
     }
 
-    private func chooseFolder() {
-        let panel = NSOpenPanel()
-        panel.title = "Choose Download Folder"
-        panel.prompt = "Choose"
-        panel.canChooseFiles = false
-        panel.canChooseDirectories = true
-        panel.canCreateDirectories = true
-        panel.allowsMultipleSelection = false
-        panel.directoryURL = manager.folder
-        panel.begin { response in
-            if response == .OK, let location = panel.url { manager.folder = location }
-        }
+}
+
+@MainActor
+private func chooseDownloadFolder(startingAt folder: URL, onSelection: @escaping (URL) -> Void) {
+    let panel = NSOpenPanel()
+    panel.title = "Choose Download Folder"
+    panel.prompt = "Choose"
+    panel.canChooseFiles = false
+    panel.canChooseDirectories = true
+    panel.canCreateDirectories = true
+    panel.allowsMultipleSelection = false
+    panel.directoryURL = folder
+    panel.begin { response in
+        if response == .OK, let location = panel.url { onSelection(location) }
     }
 }
 
@@ -207,6 +211,11 @@ private struct DownloadRow: View {
         }
         if item.phase == .paused || item.phase == .failed {
             action(item.phase == .failed ? "Retry" : "Resume", symbol: "play.fill") { manager.resume(item.id) }
+            action(item.phase == .failed ? "Choose Folder and Retry…" : "Choose Folder and Resume…", symbol: "folder") {
+                chooseDownloadFolder(startingAt: manager.folder) { folder in
+                    manager.resume(item.id, in: folder)
+                }
+            }
         }
         if let url = item.savedFile, item.phase == .completed {
             action("Reveal in Finder", symbol: "folder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }

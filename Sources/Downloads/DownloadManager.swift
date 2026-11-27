@@ -16,7 +16,7 @@ enum DownloadPhase: String, Codable, Sendable {
 struct DownloadItem: Identifiable, Codable, Sendable {
     let id: UUID
     let source: URL
-    let folder: URL
+    var folder: URL
     var name: String
     var phase: DownloadPhase = .queued
     var received: Int64 = 0
@@ -155,8 +155,9 @@ final class DownloadManager {
         }
     }
 
-    func resume(_ id: UUID) {
+    func resume(_ id: UUID, in folder: URL? = nil) {
         guard let index = index(for: id), [.paused, .failed].contains(items[index].phase) else { return }
+        if let folder { items[index].folder = folder }
         items[index].phase = .queued
         items[index].error = nil
         persist()

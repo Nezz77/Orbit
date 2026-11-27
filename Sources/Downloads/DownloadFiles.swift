@@ -13,7 +13,7 @@ enum DownloadFailure: LocalizedError {
         switch self {
         case .invalidLink: "Enter a direct HTTP or HTTPS file link."
         case .duplicate: "That link is already in the queue."
-        case .missingFolder: "The download folder is unavailable. Choose another folder and add the link again."
+        case .missingFolder: "The download folder is unavailable. Choose another folder for this transfer."
         case .invalidResponse: "The server’s response didn’t contain a complete file."
         case .httpStatus(let status): "The server returned HTTP \(status)."
         case .noFreeFilename: "Orbit couldn’t find an available filename in this folder."
