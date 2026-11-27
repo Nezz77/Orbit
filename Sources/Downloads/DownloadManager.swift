@@ -175,11 +175,16 @@ final class DownloadManager {
     }
 
     private func schedule() {
-        guard active.count < maxConcurrent else { return }
+        var availableSlots = maxConcurrent - activeCount
+        guard availableSlots > 0 else { return }
+
         // Rows show newest first, while transfers start in the order they were queued.
         for index in items.indices.reversed() where items[index].phase == .queued {
-            guard active.count < maxConcurrent else { break }
+            guard availableSlots > 0 else { break }
             launch(index)
+            if items[index].phase.isActive {
+                availableSlots -= 1
+            }
         }
     }
 
