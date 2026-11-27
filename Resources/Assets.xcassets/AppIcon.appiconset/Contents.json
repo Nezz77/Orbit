@@ -1,0 +1,68 @@
+{
+  "images": [
+    {
+      "idiom": "mac",
+      "filename": "orbit-16.png",
+      "size": "16x16",
+      "scale": "1x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-32.png",
+      "size": "16x16",
+      "scale": "2x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-32.png",
+      "size": "32x32",
+      "scale": "1x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-64.png",
+      "size": "32x32",
+      "scale": "2x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-128.png",
+      "size": "128x128",
+      "scale": "1x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-256.png",
+      "size": "128x128",
+      "scale": "2x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-256.png",
+      "size": "256x256",
+      "scale": "1x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-512.png",
+      "size": "256x256",
+      "scale": "2x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-512.png",
+      "size": "512x512",
+      "scale": "1x"
+    },
+    {
+      "idiom": "mac",
+      "filename": "orbit-1024.png",
+      "size": "512x512",
+      "scale": "2x"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}
